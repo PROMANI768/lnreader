@@ -35,6 +35,7 @@ const SettingsStack = () => (
     <Stack.Screen name="BackupSettings" component={BackupSettings} />
     <Stack.Screen name="AppearanceSettings" component={AppearanceSettings} />
     <Stack.Screen name="AdvancedSettings" component={AdvancedSettings} />
+    <Stack.Screen name="SyncSettings" component={SyncSettings} />
     <Stack.Screen name="RespositorySettings" component={RespositorySettings} />
     {/* <Stack.Screen name="LibrarySettings" component={LibrarySettings} /> */}
   </Stack.Navigator>
