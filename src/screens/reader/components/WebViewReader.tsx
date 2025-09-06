@@ -113,11 +113,72 @@ const WebViewReader: React.FC<WebViewReaderProps> = ({ onPress }) => {
         );
       },
     );
+    
     return () => {
       subscription.remove();
       mmkvListener.remove();
     };
   }, [webViewRef]);
+  
+  // Auto-scroll to saved position when chapter loads
+  useEffect(() => {
+    if (chapter.progress && chapter.progress > 0 && shouldAutoScroll.current && !hasScrolledToSavedPosition.current) {
+      const scrollTimeout = setTimeout(() => {
+        const progressPercentage = chapter.progress || 0;
+        if (chapterGeneralSettings.pageReader) {
+          // For page reader, calculate page based on progress
+          webViewRef.current?.injectJavaScript(`
+            (function() {
+              try {
+                const totalHeight = document.documentElement.scrollHeight;
+                const targetPosition = (totalHeight * ${progressPercentage}) / 100;
+                const pageHeight = window.innerHeight;
+                const targetPage = Math.floor(targetPosition / pageHeight);
+                
+                const chapterElement = document.querySelector('chapter');
+                if (chapterElement) {
+                  chapterElement.setAttribute('data-page', targetPage);
+                  chapterElement.style.transform = 'translate(-' + (targetPage * 100) + '%)';
+                }
+              } catch (e) {
+                console.log('Auto-scroll error (page mode):', e);
+              }
+            })();
+          `);
+        } else {
+          // For scroll reader, scroll to saved position
+          webViewRef.current?.injectJavaScript(`
+            (function() {
+              try {
+                const totalHeight = document.documentElement.scrollHeight;
+                const viewportHeight = window.innerHeight;
+                const scrollableHeight = totalHeight - viewportHeight;
+                const targetPosition = (scrollableHeight * ${progressPercentage}) / 100;
+                
+                window.scrollTo({
+                  top: targetPosition,
+                  behavior: 'smooth'
+                });
+                
+                console.log('Auto-scrolling to saved position:', ${progressPercentage} + '%');
+              } catch (e) {
+                console.log('Auto-scroll error:', e);
+              }
+            })();
+          `);
+        }
+        hasScrolledToSavedPosition.current = true;
+      }, 1000); // Wait 1 second for content to load
+
+      return () => clearTimeout(scrollTimeout);
+    }
+  }, [chapter.id, chapter.progress, chapterGeneralSettings.pageReader, webViewRef]);
+  
+  // Reset auto-scroll flags when chapter changes
+  useEffect(() => {
+    shouldAutoScroll.current = true;
+    hasScrolledToSavedPosition.current = false;
+  }, [chapter.id]);
   return (
     <WebView
       ref={webViewRef}
