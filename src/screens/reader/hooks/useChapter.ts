@@ -33,6 +33,7 @@ import { getString } from '@strings/translations';
 import NativeVolumeButtonListener from '@specs/NativeVolumeButtonListener';
 import NativeFile from '@specs/NativeFile';
 import { useNovelContext } from '@screens/novel/NovelContext';
+import { useSync } from '@hooks/useSync';
 
 const emmiter = new NativeEventEmitter(NativeVolumeButtonListener);
 
