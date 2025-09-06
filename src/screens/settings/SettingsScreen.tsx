@@ -69,6 +69,16 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
           theme={theme}
         />
         <List.Item
+          title="Local Network Sync"
+          icon="wifi-sync"
+          onPress={() =>
+            navigation.navigate('SettingsStack', {
+              screen: 'SyncSettings',
+            })
+          }
+          theme={theme}
+        />
+        <List.Item
           title={getString('common.backup')}
           icon="cloud-upload-outline"
           onPress={() =>
