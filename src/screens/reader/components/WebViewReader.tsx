@@ -80,6 +80,10 @@ const WebViewReader: React.FC<WebViewReaderProps> = ({ onPress }) => {
   const pluginCustomJS = `file://${PLUGIN_STORAGE}/${plugin?.id}/custom.js`;
   const pluginCustomCSS = `file://${PLUGIN_STORAGE}/${plugin?.id}/custom.css`;
   const nextChapterScreenVisible = useRef<boolean>(false);
+  
+  // Track if we should auto-scroll to saved position
+  const shouldAutoScroll = useRef<boolean>(true);
+  const hasScrolledToSavedPosition = useRef<boolean>(false);
 
   useEffect(() => {
     const mmkvListener = MMKVStorage.addOnValueChangedListener(key => {
