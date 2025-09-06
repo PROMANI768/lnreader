@@ -198,7 +198,11 @@ export default function useChapter(
   const saveProgress = useCallback(
     (percentage: number) => {
       if (!incognitoMode) {
-        updateChapterProgress(chapter.id, percentage > 100 ? 100 : percentage);
+        const cleanPercentage = percentage > 100 ? 100 : percentage;
+        updateChapterProgress(chapter.id, cleanPercentage);
+
+        // Sync progress with other devices on local network
+        syncChapterProgress(chapter, cleanPercentage);
 
         if (percentage >= 97) {
           // a relative number
@@ -208,11 +212,12 @@ export default function useChapter(
       }
     },
     [
-      chapter.id,
+      chapter,
       incognitoMode,
       markChapterRead,
       updateChapterProgress,
       updateTracker,
+      syncChapterProgress,
     ],
   );
 
