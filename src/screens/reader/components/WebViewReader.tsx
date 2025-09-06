@@ -205,6 +205,8 @@ const WebViewReader: React.FC<WebViewReaderProps> = ({ onPress }) => {
           case 'save':
             if (event.data && typeof event.data === 'number') {
               saveProgress(event.data);
+              // Disable auto-scroll after user interaction
+              shouldAutoScroll.current = false;
             }
             break;
           case 'speak':
