@@ -10,6 +10,7 @@ import ReaderSettings from '../screens/settings/SettingsReaderScreen/SettingsRea
 import BackupSettings from '../screens/settings/SettingsBackupScreen';
 import AdvancedSettings from '../screens/settings/SettingsAdvancedScreen';
 import GeneralSettings from '../screens/settings/SettingsGeneralScreen/SettingsGeneralScreen';
+import SyncSettings from '../screens/settings/SyncSettings';
 import TaskQueue from '../screens/more/TaskQueueScreen';
 import Downloads from '../screens/more/DownloadsScreen';
 import AppearanceSettings from '../screens/settings/SettingsAppearanceScreen';
