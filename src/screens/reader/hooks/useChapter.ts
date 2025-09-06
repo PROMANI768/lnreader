@@ -48,6 +48,7 @@ export default function useChapter(
     updateChapterProgress,
     chapterTextCache,
   } = useNovelContext();
+  const { syncChapterProgress } = useSync();
   const [hidden, setHidden] = useState(true);
   const [chapter, setChapter] = useState(initialChapter);
   const [loading, setLoading] = useState(true);
