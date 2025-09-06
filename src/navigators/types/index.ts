@@ -81,6 +81,7 @@ export type SettingsStackParamList = {
   AppearanceSettings: undefined;
   AdvancedSettings: undefined;
   LibrarySettings: undefined;
+  SyncSettings: undefined;
   RespositorySettings: { url?: string } | undefined;
 };
 
